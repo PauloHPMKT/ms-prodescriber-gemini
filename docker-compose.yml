@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  gemini-api:
+    build: .
+    entrypoint: sh ./.docker/entrypoint.sh
+    container_name: gemini-api
+    ports:
+      - 4010:4010
+    volumes:
+      - ./:/home/app-gemini
+    networks:
+      - prodescriber-network
+    tty: true
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+
+  # mongodb:
+  #   image: mongo:4.4
+  #   container_name: mongodb
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - /mongodb/dbdata:/data/db
+  #     - /mongodb/configdb:/data/configdb
+  #     - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+  #   environment:
+  #     MONGO_INITDB_DATABASE: gemini
+  #   networks:
+  #     - app-microsservice-gemini
+
+networks:
+  prodescriber-network:
+    driver: bridge
